@@ -1,20 +1,28 @@
 package com.connect_board.connect_board.services;
 
 import com.connect_board.connect_board.dto.UserDTO;
+import com.connect_board.connect_board.entities.UserEntity;
 import com.connect_board.connect_board.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
     @Override
     public List<UserDTO> getAllUsers() {
-        return List.of();
+        return userRepository.findAll().
+                stream().
+                map(userEntity -> modelMapper.map(userEntity, UserDTO.class))
+                .collect(Collectors.toList());
     }
 
     @Override
@@ -24,7 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO createUser(UserDTO userDTO) {
-        return null;
+        UserEntity postEntity = modelMapper.map(userDTO, UserEntity.class);
+        UserEntity userEntity = userRepository.save(postEntity);
+        return modelMapper.map(userEntity, UserDTO.class);
+
     }
 
     @Override
