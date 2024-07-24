@@ -2,9 +2,9 @@ package com.connect_board.connect_board.services;
 
 import com.connect_board.connect_board.dto.UserDTO;
 import com.connect_board.connect_board.entities.UserEntity;
+import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
-import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +27,9 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO getUserById(Long id) {
-        return null;
+        // TO DO Add custom  response structure and exception handling
+        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+        return modelMapper.map(userEntity, UserDTO.class);
     }
 
     @Override
