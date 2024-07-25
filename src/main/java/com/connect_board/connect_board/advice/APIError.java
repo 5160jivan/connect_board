@@ -8,19 +8,12 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class APIError {
-    private LocalDate timestamp;
     private HttpStatus status;
-    private String error;
+    private String message;
 
     public APIError(HttpStatus status, String error) {
-        this();
         this.status = status;
-        this.error = error;
+        this.message = error;
     }
-
-    public APIError() {
-        this.timestamp = LocalDate.now();
-    }
-
 
 }

@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/users")
@@ -27,6 +28,12 @@ public class UserController {
     public UserDTO getUserById(@PathVariable Long id) {
         return userService.getUserById(id);
     }
+
+    @PatchMapping("/{id}")
+    public UserDTO updateUser(@PathVariable Long id, @RequestBody Map<String, Object> updates) {
+        return userService.updateUser(id, updates);
+    }
+
     @PostMapping
     public UserDTO createUser(@RequestBody UserDTO userDTO) {
         log.info("Creating user with parameters: {}", userDTO);

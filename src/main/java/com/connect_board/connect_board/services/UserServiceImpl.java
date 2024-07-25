@@ -5,10 +5,15 @@ import com.connect_board.connect_board.entities.UserEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
+import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,9 +45,26 @@ public class UserServiceImpl implements UserService {
 
     }
 
+    public void isUserExist(Long id) {
+        boolean exists =  userRepository.existsById(id);
+        if(!exists) {
+            throw new ResourceNotFoundException("User not found with id: " + id);
+        }
+    }
     @Override
-    public UserDTO updateUser(UserDTO userDTO, Long id) {
-        return null;
+    public UserDTO updateUser(Long id, Map<String, Object> updates) {
+        isUserExist(id);
+        Optional<UserEntity> userEntity = userRepository.findById(id);
+        if(!userEntity.isPresent()) {
+            throw new ResourceNotFoundException("User not found with id: " + id);
+        }
+        updates.forEach((key, value) -> {
+            Field field = ReflectionUtils.findField(UserEntity.class, key);
+            field.setAccessible(true);
+            ReflectionUtils.setField(field, userEntity, value);
+        });
+        UserEntity updatedUserEntity = userRepository.save(userEntity.get());
+        return modelMapper.map(updatedUserEntity, UserDTO.class);
     }
 
     @Override

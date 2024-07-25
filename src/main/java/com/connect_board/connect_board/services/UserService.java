@@ -4,6 +4,7 @@ import com.connect_board.connect_board.dto.UserDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface UserService {
@@ -14,7 +15,7 @@ public interface UserService {
 
     UserDTO createUser(UserDTO userDTO);
 
-    UserDTO updateUser(UserDTO userDTO, Long id);
+    UserDTO updateUser(Long id, Map<String, Object> updates);
 
     void deleteUser(Long id);
 
