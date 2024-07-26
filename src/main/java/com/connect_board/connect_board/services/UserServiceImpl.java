@@ -60,8 +60,14 @@ public class UserServiceImpl implements UserService {
         }
         updates.forEach((key, value) -> {
             Field field = ReflectionUtils.findField(UserEntity.class, key);
-            field.setAccessible(true);
-            ReflectionUtils.setField(field, userEntity, value);
+            if(field != null){
+                field.setAccessible(true);
+                ReflectionUtils.setField(field, userEntity.get(), value);
+            }
+            else{
+                throw new IllegalArgumentException("Field not found: " + key);
+            }
+
         });
         UserEntity updatedUserEntity = userRepository.save(userEntity.get());
         return modelMapper.map(updatedUserEntity, UserDTO.class);

@@ -18,4 +18,11 @@ public class GlobalExceptionHandler {
         log.error("Resource not found: {}", ex.getMessage());
         return new ResponseEntity<>(new APIResponse<>(apiError), apiError.getStatus());
     }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<APIResponse<?>> handleIllegalArgumentException(IllegalArgumentException ex) {
+        APIError apiError = new APIError(HttpStatus.BAD_REQUEST, ex.getMessage());
+        log.error("Illegal argument: {}", ex.getMessage());
+        return new ResponseEntity<>(new APIResponse<>(apiError), apiError.getStatus());
+    }
 }
