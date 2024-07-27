@@ -1,31 +1,33 @@
 package com.connect_board.connect_board.entities;
 
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import java.util.List;
-import jakarta.validation.constraints.NotNull;
+
 @Entity
-@Table(name = "users")
+@Table(name = "board")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class UserEntity {
-
+public class BoardEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    private String userName;
+    @Column(name = "title")
+    private String title;
 
-    @NotNull
-    private String userEmail;
+    @Column(name = "created_by")
+    private String createdBy;
 
-    @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardEntity> boards;
+    @Column(name = "created_date")
+    private String createdDate;
+
+    @Column(name = "modified_date")
+    private String modifiedDate;
+
+
 }
