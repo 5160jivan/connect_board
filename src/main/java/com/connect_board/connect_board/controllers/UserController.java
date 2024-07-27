@@ -2,6 +2,7 @@ package com.connect_board.connect_board.controllers;
 
 import com.connect_board.connect_board.dto.UserDTO;
 import com.connect_board.connect_board.services.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping
-    public UserDTO createUser(@RequestBody UserDTO userDTO) {
+    public UserDTO createUser(@RequestBody @Valid UserDTO userDTO) {
         log.info("Creating user with parameters: {}", userDTO);
         return userService.createUser(userDTO);
     }
