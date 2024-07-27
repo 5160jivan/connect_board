@@ -28,4 +28,14 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BoardEntity> boards;
+
+    public void addBoard(BoardEntity board) {
+        boards.add(board);
+        board.setCreatedBy(this);
+    }
+
+    public void removeBoard(BoardEntity board) {
+        boards.remove(board);
+        board.setCreatedBy(null);
+    }
 }

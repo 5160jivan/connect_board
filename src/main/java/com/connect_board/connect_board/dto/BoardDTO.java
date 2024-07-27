@@ -17,8 +17,7 @@ public class BoardDTO{
     @NotBlank
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "created_by", nullable = false)
+    @NotNull
     private String createdBy;
 
     @NotNull

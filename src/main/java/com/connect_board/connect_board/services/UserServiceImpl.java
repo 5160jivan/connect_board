@@ -53,7 +53,6 @@ public class UserServiceImpl implements UserService {
     }
     @Override
     public UserDTO updateUser(Long id, Map<String, Object> updates) {
-        isUserExist(id);
         Optional<UserEntity> userEntity = userRepository.findById(id);
         if(!userEntity.isPresent()) {
             throw new ResourceNotFoundException("User not found with id: " + id);
@@ -75,6 +74,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long id) {
-
+        isUserExist(id);
+        userRepository.deleteById(id);
     }
 }
