@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @RestControllerAdvice
 public class GlobalExceptionHandler {
@@ -38,7 +39,7 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .message(ex.getMessage())
                 .build();
-        log.error("Internal server error: {}", ex.getMessage());
+        log.error("Internal server error: {}  \ntrace: {}", ex.getMessage(), Arrays.toString(ex.getStackTrace()));
         return new ResponseEntity<>(new APIResponse<>(apiError), apiError.getStatus());
     }
 

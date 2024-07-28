@@ -1,5 +1,6 @@
 package com.connect_board.connect_board.dto;
 
+import com.connect_board.connect_board.entities.UserEntity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotBlank;
@@ -18,12 +19,10 @@ public class BoardDTO{
     private String title;
 
     @NotNull
-    private String createdBy;
+    private UserDTO createdBy;
 
-    @NotNull
     private String createdDate;
 
-    @NotNull
     private String modifiedDate;
 
 }
