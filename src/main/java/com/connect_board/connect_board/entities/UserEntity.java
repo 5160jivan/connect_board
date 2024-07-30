@@ -20,10 +20,10 @@ public class UserEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @NotNull
+    @Column(name = "user_email", nullable = false)
     private String userEmail;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)

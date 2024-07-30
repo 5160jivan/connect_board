@@ -5,7 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.DialectOverride;
+
+import java.util.List;
 
 @Entity
 @Table(name = "board")
@@ -24,6 +25,11 @@ public class BoardEntity {
     @ManyToOne
     @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;
+
+    @ManyToMany
+    @JoinTable(name = "board_categories", joinColumns = @JoinColumn(name = "board_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    private List<BoardCategoryEntity> categories;
+
 
     @Column(name = "created_date")
     private String createdDate;
