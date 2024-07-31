@@ -20,6 +20,17 @@ public class BoardCategoryEntity {
     @Column(name = "description")
     private String description;
 
-    ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories")
     private List<BoardEntity> boards;
+
+    public void addBoardEntity(BoardEntity board){
+        boards.add(board);
+        board.getCategories().add(this);
+
+    }
+
+    public void removeBoardEntity(BoardEntity board){
+        boards.remove(board);
+        board.getCategories().remove(this);
+    }
 }
