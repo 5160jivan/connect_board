@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import java.util.List;
+import java.util.Set;
+
 import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "users")
@@ -27,7 +29,10 @@ public class UserEntity {
     private String userEmail;
 
     @OneToMany(mappedBy = "createdBy", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BoardEntity> boards;
+    private Set<BoardEntity> boards;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BoardMemberEntity> boardMemberships;
 
     public void addBoard(BoardEntity board) {
         boards.add(board);

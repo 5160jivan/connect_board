@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "board_categories")
@@ -21,7 +22,7 @@ public class BoardCategoryEntity {
     private String description;
 
     @ManyToMany(mappedBy = "categories")
-    private List<BoardEntity> boards;
+    private Set<BoardEntity> boards;
 
     public void addBoardEntity(BoardEntity board){
         boards.add(board);

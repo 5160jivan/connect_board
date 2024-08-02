@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "board")
@@ -31,14 +32,18 @@ public class BoardEntity {
             CascadeType.MERGE
     })
     @JoinTable(name = "board_categories", joinColumns = @JoinColumn(name = "board_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
-    private List<BoardCategoryEntity> categories;
+    private Set<BoardCategoryEntity> categories;
 
+    @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<BoardMemberEntity> boardMembers;
 
     @Column(name = "created_date")
     private String createdDate;
 
     @Column(name = "modified_date")
     private String modifiedDate;
+
+
 
     @Override
     public int hashCode() {
