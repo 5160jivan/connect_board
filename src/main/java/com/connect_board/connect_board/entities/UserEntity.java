@@ -43,4 +43,14 @@ public class UserEntity {
         boards.remove(board);
         board.setCreatedBy(null);
     }
+
+    public void addBoardMembership(BoardMemberEntity boardMember){
+        boardMemberships.add(boardMember);
+        boardMember.setUser(this);
+    }
+
+    public void removeBoardMembership(BoardMemberEntity boardMember){
+        boardMemberships.remove(boardMember);
+        boardMember.setUser(null);
+    }
 }

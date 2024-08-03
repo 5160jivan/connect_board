@@ -23,7 +23,7 @@ public class BoardEntity {
     @Column(name = "title")
     private String title;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "created_by", nullable = false)
     private UserEntity createdBy;
 
@@ -44,6 +44,16 @@ public class BoardEntity {
     private String modifiedDate;
 
 
+    public void addBoardMember(BoardMemberEntity boardMember){
+        boardMembers.add(boardMember);
+        boardMember.setBoard(this);
+
+    }
+
+    public void removeBoardMember(BoardMemberEntity boardMember){
+        boardMembers.remove(boardMember);
+        boardMember.setBoard(null);
+    }
 
     @Override
     public int hashCode() {

@@ -24,14 +24,11 @@ public class BoardCategoryEntity {
     @ManyToMany(mappedBy = "categories")
     private Set<BoardEntity> boards;
 
-    public void addBoardEntity(BoardEntity board){
-        boards.add(board);
-        board.getCategories().add(this);
-
+    @Override
+    public int hashCode(){
+        return getClass().hashCode();
     }
 
-    public void removeBoardEntity(BoardEntity board){
-        boards.remove(board);
-        board.getCategories().remove(this);
-    }
+    // TO DO implement equals - https://vladmihalcea.com/how-to-implement-equals-and-hashcode-using-the-jpa-entity-identifier/
+
 }
