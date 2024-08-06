@@ -43,6 +43,15 @@ public class BoardEntity {
     @Column(name = "modified_date")
     private String modifiedDate;
 
+    public void addBoardCategory(BoardCategoryEntity boardCategory){
+        categories.add(boardCategory);
+        boardCategory.getBoards().add(this);
+    }
+
+    public void removeBoardCategory(BoardCategoryEntity boardCategory){
+        categories.remove(boardCategory);
+        boardCategory.getBoards().remove(this);
+    }
 
     public void addBoardMember(BoardMemberEntity boardMember){
         boardMembers.add(boardMember);

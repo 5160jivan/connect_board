@@ -42,8 +42,6 @@ public class BoardMemberEntity {
         }
 
         return id != null && id.equals(((BoardMemberEntity) ob).getId());
-
-
     }
 
 }
