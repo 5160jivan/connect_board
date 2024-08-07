@@ -6,7 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
-
+import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +19,8 @@ public class UserDTO {
 
     @Email(message = "Email should be valid")
     private String userEmail;
+
+    private Set<UserDTO> boards;
+
+    private Set<BoardMemberDTO> boardMemberships;
 }

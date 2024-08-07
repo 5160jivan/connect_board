@@ -1,5 +1,6 @@
 package com.connect_board.connect_board.dto;
 
+import com.connect_board.connect_board.entities.BoardCategoryEntity;
 import com.connect_board.connect_board.entities.UserEntity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -8,6 +9,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -24,5 +27,11 @@ public class BoardDTO{
     private String createdDate;
 
     private String modifiedDate;
+
+    private Set<BoardCategoryDTO> categories;
+
+    private Set<BoardMemberDTO> boardMembers;
+
+
 
 }
