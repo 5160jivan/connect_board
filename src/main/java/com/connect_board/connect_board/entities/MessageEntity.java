@@ -51,4 +51,9 @@ public class MessageEntity {
     void updatedAt() {
         this.updatedDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
     }
+
+    @PreRemove
+    void beforeDelete() {
+        this.deletedDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
 }
