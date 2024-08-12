@@ -12,7 +12,6 @@ public interface BoardMemberService {
 
     BoardMemberDTO getBoardMemberById(BoardMemberID id);
 
-    BoardMemberDTO createBoardMember(BoardMemberDTO boardMemberDTO);
 
 
 

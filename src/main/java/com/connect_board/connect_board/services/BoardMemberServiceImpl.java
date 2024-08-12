@@ -13,7 +13,6 @@ import java.util.Map;
 @Service
 @RequiredArgsConstructor
 public class BoardMemberServiceImpl implements BoardMemberService {
-    private final BoardMemberService boardMemberService;
     private final BoardMemberRepository boardMemberRepository;
     private final ModelMapper modelMapper;
 
@@ -21,13 +20,6 @@ public class BoardMemberServiceImpl implements BoardMemberService {
     public BoardMemberDTO getBoardMemberById(BoardMemberID id) {
         BoardMemberEntity boardMember= boardMemberRepository.findById(id).orElseThrow(() -> new RuntimeException("Board Member not found with id: " + id));
         return modelMapper.map(boardMember, BoardMemberDTO.class);
-    }
-
-    @Override
-    public BoardMemberDTO createBoardMember(BoardMemberDTO boardMemberDTO) {
-        BoardMemberEntity boardMemberEntity = modelMapper.map(boardMemberDTO, BoardMemberEntity.class);
-        BoardMemberEntity savedBoardMemberEntity = boardMemberRepository.save(boardMemberEntity);
-        return modelMapper.map(savedBoardMemberEntity, BoardMemberDTO.class);
     }
 
 }
