@@ -1,6 +1,8 @@
 package com.connect_board.connect_board.services;
 
 import com.connect_board.connect_board.dto.BoardDTO;
+import com.connect_board.connect_board.dto.BoardMemberDTO;
+import com.connect_board.connect_board.utils.BoardMemberID;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,4 +19,11 @@ public interface BoardService {
     BoardDTO updateBoard(Long id, Map<String, Object> updates);
 
     void deleteBoard(Long id);
+
+    List<BoardMemberDTO> getBoardMembers(Long id);
+
+    BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO);
+
+    void removeBoardMember(Long id, BoardMemberID memberId);
+
 }

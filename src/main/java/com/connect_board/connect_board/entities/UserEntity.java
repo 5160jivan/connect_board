@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -33,6 +35,14 @@ public class UserEntity {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<BoardMemberEntity> boardMemberships;
+
+    @Column(name = "signup_date")
+    private String signupDate;
+
+    @PrePersist
+    void createdAt() {
+        this.signupDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
 
     public void addBoard(BoardEntity board) {
         boards.add(board);

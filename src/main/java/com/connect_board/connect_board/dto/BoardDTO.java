@@ -28,6 +28,8 @@ public class BoardDTO{
 
     private String modifiedDate;
 
+    private String deletedDate;
+
     private Set<BoardCategoryDTO> categories;
 
     private Set<BoardMemberDTO> boardMembers;

@@ -1,9 +1,12 @@
 package com.connect_board.connect_board.services;
 
 import com.connect_board.connect_board.dto.BoardDTO;
+import com.connect_board.connect_board.dto.BoardMemberDTO;
 import com.connect_board.connect_board.entities.BoardEntity;
+import com.connect_board.connect_board.entities.BoardMemberEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.BoardRepository;
+import com.connect_board.connect_board.utils.BoardMemberID;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -71,10 +74,42 @@ public class BoardServiceImpl implements BoardService {
         boardRepository.deleteById(id);
     }
 
+    @Override
+    public List<BoardMemberDTO> getBoardMembers(Long id) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        return boardEntity.getBoardMembers()
+                .stream()
+                .map(boardMemberEntity -> modelMapper.map(boardMemberEntity, BoardMemberDTO.class))
+                .collect(Collectors.toList()
+        );
+    }
+
+    @Override
+    public BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        BoardMemberEntity boardMemberEntity = modelMapper.map(boardMemberDTO, BoardMemberEntity.class);
+        boardEntity.addBoardMember(boardMemberEntity);
+        BoardEntity savedBoardEntity = boardRepository.save(boardEntity);
+        return modelMapper.map(savedBoardEntity, BoardDTO.class);
+    }
+
+    @Override
+    public void removeBoardMember(Long id, BoardMemberID memberId) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        BoardMemberEntity boardMemberEntity = boardEntity.getBoardMembers()
+                .stream()
+                .filter(member -> member.getId().equals(memberId))
+                .findFirst()
+                .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + memberId));
+        boardEntity.removeBoardMember(boardMemberEntity);
+    }
+
     public  void isBoardExist(Long id) {
         boolean exists = boardRepository.existsById(id);
         if(!exists) {
             throw new ResourceNotFoundException("Board not found with id: " + id);
         }
     }
+
+
 }

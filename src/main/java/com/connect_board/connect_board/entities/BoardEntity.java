@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Set;
 
@@ -42,6 +43,24 @@ public class BoardEntity {
 
     @Column(name = "modified_date")
     private String modifiedDate;
+
+    @Column(name = "deleted_date")
+    private String deletedDate;
+
+    @PrePersist
+    void createdAt() {
+        this.createdDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
+
+    @PreUpdate
+    void updatedAt() {
+        this.modifiedDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
+
+    @PreRemove
+    void beforeDelete() {
+        this.deletedDate = String.valueOf(new Timestamp(System.currentTimeMillis()));
+    }
 
     public void addBoardCategory(BoardCategoryEntity boardCategory){
         categories.add(boardCategory);
