@@ -1,5 +1,6 @@
 package com.connect_board.connect_board.services;
 
+import com.connect_board.connect_board.dto.BoardCategoryDTO;
 import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.BoardMemberDTO;
 import com.connect_board.connect_board.utils.BoardMemberID;
@@ -25,5 +26,9 @@ public interface BoardService {
     BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO);
 
     void removeBoardMember(Long id, BoardMemberID memberId);
+
+    BoardDTO addBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO);
+
+    void removeBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO);
 
 }

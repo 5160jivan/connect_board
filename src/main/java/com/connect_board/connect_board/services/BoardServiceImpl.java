@@ -1,7 +1,9 @@
 package com.connect_board.connect_board.services;
 
+import com.connect_board.connect_board.dto.BoardCategoryDTO;
 import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.BoardMemberDTO;
+import com.connect_board.connect_board.entities.BoardCategoryEntity;
 import com.connect_board.connect_board.entities.BoardEntity;
 import com.connect_board.connect_board.entities.BoardMemberEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
@@ -102,6 +104,23 @@ public class BoardServiceImpl implements BoardService {
                 .findFirst()
                 .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + memberId));
         boardEntity.removeBoardMember(boardMemberEntity);
+    }
+
+    @Override
+    public BoardDTO addBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        BoardCategoryEntity boardCategoryEntity = modelMapper.map(boardCategoryDTO, BoardCategoryEntity.class);
+        boardEntity.addBoardCategory(boardCategoryEntity);
+        BoardEntity savedBoardEntity = boardRepository.save(boardEntity);
+        return modelMapper.map(savedBoardEntity, BoardDTO.class);
+    }
+
+    @Override
+    public void removeBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO) {
+        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        BoardCategoryEntity boardCategoryEntity = modelMapper.map(boardCategoryDTO, BoardCategoryEntity.class);
+        boardEntity.removeBoardCategory(boardCategoryEntity);
+        boardRepository.save(boardEntity);
     }
 
     public  void isBoardExist(Long id) {
