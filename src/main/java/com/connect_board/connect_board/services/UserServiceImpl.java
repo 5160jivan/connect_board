@@ -1,6 +1,10 @@
 package com.connect_board.connect_board.services;
 
+import com.connect_board.connect_board.dto.BoardDTO;
+import com.connect_board.connect_board.dto.BoardMemberDTO;
 import com.connect_board.connect_board.dto.UserDTO;
+import com.connect_board.connect_board.entities.BoardEntity;
+import com.connect_board.connect_board.entities.BoardMemberEntity;
 import com.connect_board.connect_board.entities.UserEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.UserRepository;
@@ -11,9 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -76,5 +78,17 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(Long id) {
         isUserExist(id);
         userRepository.deleteById(id);
+    }
+
+    @Override
+    public List<BoardDTO> getUserBoards(Long id) {
+        Set<BoardEntity> boards = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id)).getBoards();
+        return boards.stream().map(boardEntity -> modelMapper.map(boardEntity, BoardDTO.class)).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<BoardMemberDTO> getUserBoardMemberships(Long id) {
+        Set<BoardMemberEntity> userMemberships = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id)).getBoardMemberships();
+        return userMemberships.stream().map(boardMemberEntity -> modelMapper.map(boardMemberEntity, BoardMemberDTO.class)).collect(Collectors.toList());
     }
 }

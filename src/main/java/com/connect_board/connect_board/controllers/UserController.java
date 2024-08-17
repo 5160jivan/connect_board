@@ -1,5 +1,6 @@
 package com.connect_board.connect_board.controllers;
 
+import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.UserDTO;
 import com.connect_board.connect_board.services.UserService;
 import jakarta.validation.Valid;
@@ -39,5 +40,10 @@ public class UserController {
     public UserDTO createUser(@RequestBody @Valid UserDTO userDTO) {
         log.info("Creating user with parameters: {}", userDTO);
         return userService.createUser(userDTO);
+    }
+
+    @GetMapping("/{id}/boards")
+    public List<BoardDTO> getUserBoards(@PathVariable Long id) {
+        return userService.getUserBoards(id);
     }
 }

@@ -1,18 +1,23 @@
 package com.connect_board.connect_board.services;
 
-import com.connect_board.connect_board.dto.BoardCategoryDTO;
-import com.connect_board.connect_board.dto.BoardDTO;
-import com.connect_board.connect_board.dto.BoardMemberDTO;
+import com.connect_board.connect_board.controllers.UserController;
+import com.connect_board.connect_board.dto.*;
 import com.connect_board.connect_board.entities.BoardCategoryEntity;
 import com.connect_board.connect_board.entities.BoardEntity;
 import com.connect_board.connect_board.entities.BoardMemberEntity;
+import com.connect_board.connect_board.entities.UserEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.BoardRepository;
-import com.connect_board.connect_board.utils.BoardMemberID;
+import com.connect_board.connect_board.utils.Constants;
 import lombok.RequiredArgsConstructor;
+import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
+
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -23,8 +28,11 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
+    Logger log = LoggerFactory.getLogger(UserController.class);
+
 
     private final BoardRepository boardRepository;
+    private final UserService userService;
 
     private final ModelMapper modelMapper;
     @Override
@@ -87,22 +95,27 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
+    @Transactional
     public BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) {
         BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+        UserDTO userDTO = userService.getUserById(boardMemberDTO.getId().getUserId());
         BoardMemberEntity boardMemberEntity = modelMapper.map(boardMemberDTO, BoardMemberEntity.class);
+        boardMemberEntity.setUser(modelMapper.map(userDTO, UserEntity.class));
+        boardMemberEntity.setBoard(boardEntity);
         boardEntity.addBoardMember(boardMemberEntity);
         BoardEntity savedBoardEntity = boardRepository.save(boardEntity);
+        ModelMapper modelMapper = new ModelMapper();
         return modelMapper.map(savedBoardEntity, BoardDTO.class);
     }
 
     @Override
-    public void removeBoardMember(Long id, BoardMemberID memberId) {
+    public void removeBoardMember(Long id, BoardMemberDTO boardMemberDTO) {
         BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
         BoardMemberEntity boardMemberEntity = boardEntity.getBoardMembers()
                 .stream()
-                .filter(member -> member.getId().equals(memberId))
+                .filter(member -> member.getId().equals(boardMemberDTO.getId()))
                 .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + memberId));
+                .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + boardMemberDTO.getId()));
         boardEntity.removeBoardMember(boardMemberEntity);
     }
 

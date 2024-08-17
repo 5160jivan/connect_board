@@ -1,8 +1,11 @@
 package com.connect_board.connect_board.controllers;
 import com.connect_board.connect_board.dto.BoardDTO;
+import com.connect_board.connect_board.dto.BoardMemberDTO;
+import com.connect_board.connect_board.dto.BoardMemberIDDTO;
 import lombok.RequiredArgsConstructor;
 import com.connect_board.connect_board.services.BoardService;
 import org.springframework.web.bind.annotation.*;
+import  com.connect_board.connect_board.dto.BoardCategoryDTO;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -30,6 +33,26 @@ public class BoardController {
             board.setCreatedDate(String.valueOf(LocalDate.now()));
         }
         return boardService.createBoard(board);
+    }
+
+    @PatchMapping("/{boardId}/addMember")
+    public BoardDTO addBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO){
+        return boardService.addBoardMember(boardId, boardMemberDTO);
+    }
+
+    @PatchMapping("/{boardId}/removeMember")
+    public void removeBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO){
+        boardService.removeBoardMember(boardId, boardMemberDTO);
+    }
+
+    @PatchMapping("/{boardId}/addCategory")
+    public BoardDTO addBoardCategory(@PathVariable Long boardId, @RequestBody BoardCategoryDTO boardCategoryDTO){
+        return boardService.addBoardCategory(boardId, boardCategoryDTO);
+    }
+
+    @PatchMapping("/{boardId}/removeCategory")
+    public void removeBoardCategory(@PathVariable Long boardId, @RequestBody BoardCategoryDTO boardCategoryDTO){
+        boardService.removeBoardCategory(boardId, boardCategoryDTO);
     }
 
 }

@@ -11,6 +11,6 @@ import java.io.Serializable;
 @Setter
 public class BoardMemberID implements Serializable {
     private Long boardId;
-    private String userId;
+    private Long userId;
 
 }

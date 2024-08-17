@@ -3,6 +3,7 @@ package com.connect_board.connect_board.services;
 import com.connect_board.connect_board.dto.BoardCategoryDTO;
 import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.BoardMemberDTO;
+import com.connect_board.connect_board.dto.BoardMemberIDDTO;
 import com.connect_board.connect_board.utils.BoardMemberID;
 import org.springframework.stereotype.Service;
 
@@ -25,7 +26,9 @@ public interface BoardService {
 
     BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO);
 
-    void removeBoardMember(Long id, BoardMemberID memberId);
+    void removeBoardMember(Long id,
+                           BoardMemberDTO boardMemberDTO);
+
 
     BoardDTO addBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO);
 

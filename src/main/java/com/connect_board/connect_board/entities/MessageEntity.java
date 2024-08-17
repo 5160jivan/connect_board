@@ -9,8 +9,8 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "messages", indexes = {
-        @Index(name = "idx_board_message", columnList = "board_id, created_at"),
-        @Index(name = "idx_user_message", columnList = "user_id, created_at")
+        @Index(name = "idx_board_message", columnList = "board_id, created_date"),
+        @Index(name = "idx_user_message", columnList = "user_id, created_date")
 })
 @Getter
 @Setter
