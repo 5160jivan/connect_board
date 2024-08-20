@@ -24,7 +24,7 @@ public interface BoardService {
 
     List<BoardMemberDTO> getBoardMembers(Long id);
 
-    BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO);
+    BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) throws Exception;
 
     void removeBoardMember(Long id,
                            BoardMemberDTO boardMemberDTO);

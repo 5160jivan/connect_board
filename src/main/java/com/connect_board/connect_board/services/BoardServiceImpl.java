@@ -96,16 +96,23 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     @Transactional
-    public BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) {
-        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
-        UserDTO userDTO = userService.getUserById(boardMemberDTO.getId().getUserId());
-        BoardMemberEntity boardMemberEntity = modelMapper.map(boardMemberDTO, BoardMemberEntity.class);
-        boardMemberEntity.setUser(modelMapper.map(userDTO, UserEntity.class));
-        boardMemberEntity.setBoard(boardEntity);
-        boardEntity.addBoardMember(boardMemberEntity);
-        BoardEntity savedBoardEntity = boardRepository.save(boardEntity);
-        ModelMapper modelMapper = new ModelMapper();
-        return modelMapper.map(savedBoardEntity, BoardDTO.class);
+    public BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) throws Exception {
+        try{
+            BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+            UserDTO userDTO = userService.getUserById(boardMemberDTO.getId().getUserId());
+            BoardMemberEntity boardMemberEntity = modelMapper.map(boardMemberDTO, BoardMemberEntity.class);
+            boardMemberEntity.setUser(modelMapper.map(userDTO, UserEntity.class));
+            log.info("Set user with email {} to board member", userDTO.getUserEmail());
+            boardMemberEntity.setBoard(boardEntity);
+            boardEntity.addBoardMember(boardMemberEntity);
+            BoardEntity savedBoardEntity = boardRepository.save(boardEntity);
+            ModelMapper modelMapper = new ModelMapper();
+            return modelMapper.map(savedBoardEntity, BoardDTO.class);
+        }
+        catch (Exception e){
+            throw new Exception("Error occurred while adding board member: " + e.getMessage());
+        }
+
     }
 
     @Override

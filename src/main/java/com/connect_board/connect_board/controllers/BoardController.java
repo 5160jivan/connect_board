@@ -37,7 +37,11 @@ public class BoardController {
 
     @PatchMapping("/{boardId}/addMember")
     public BoardDTO addBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO){
-        return boardService.addBoardMember(boardId, boardMemberDTO);
+        try {
+            return boardService.addBoardMember(boardId, boardMemberDTO);
+        } catch (Exception e) {
+            throw new RuntimeException("Error adding board member to board "+ boardId + ": " + e.getMessage());
+        }
     }
 
     @PatchMapping("/{boardId}/removeMember")
