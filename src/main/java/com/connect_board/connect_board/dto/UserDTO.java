@@ -20,7 +20,5 @@ public class UserDTO {
     @Email(message = "Email should be valid")
     private String userEmail;
 
-    private Set<UserDTO> boards;
-
-    private Set<BoardMemberDTO> boardMemberships;
+    private String signupDate;
 }

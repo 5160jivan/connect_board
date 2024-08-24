@@ -15,7 +15,7 @@ public interface UserService {
 
     List<UserDTO> getAllUsers();
 
-    UserDTO getUserById(Long id);
+    UserDTO getUserById(Long id) throws Exception;
 
     UserDTO createUser(UserDTO userDTO);
 

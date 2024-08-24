@@ -33,10 +33,16 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO getUserById(Long id) {
-        // TO DO Add custom  response structure and exception handling
-        UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
-        return modelMapper.map(userEntity, UserDTO.class);
+    public UserDTO getUserById(Long id)  throws Exception{
+        // TO DO Add custom  response structure and exception handling]
+        try{
+            UserEntity userEntity = userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found with id: " + id));
+            return modelMapper.map(userEntity, UserDTO.class);
+        } catch (Exception e) {
+            throw new Exception("Error during retrieving user by id : " + id + " " + e.getMessage());
+        }
+
+
     }
 
     @Override

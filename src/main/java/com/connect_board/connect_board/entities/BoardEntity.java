@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,8 +74,13 @@ public class BoardEntity {
     }
 
     public void addBoardMember(BoardMemberEntity boardMember){
-        boardMembers.add(boardMember);
-        boardMember.setBoard(this);
+        if(boardMembers == null){
+            boardMembers = new HashSet<>();
+        }
+        if(!boardMembers.contains(boardMember)){
+            boardMembers.add(boardMember);
+            boardMember.setBoard(this);
+        }
 
     }
 

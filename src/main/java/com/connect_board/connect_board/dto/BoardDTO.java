@@ -30,10 +30,6 @@ public class BoardDTO{
 
     private String deletedDate;
 
-    private Set<BoardCategoryDTO> categories;
-
-    private Set<BoardMemberDTO> boardMembers;
-
 
 
 }
