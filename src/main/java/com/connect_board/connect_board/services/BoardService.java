@@ -5,6 +5,7 @@ import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.BoardMemberDTO;
 import com.connect_board.connect_board.dto.BoardMemberIDDTO;
 import com.connect_board.connect_board.utils.BoardMemberID;
+import com.connect_board.connect_board.utils.CustomOperationResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +27,8 @@ public interface BoardService {
 
     BoardDTO addBoardMember(Long id, BoardMemberDTO boardMemberDTO) throws Exception;
 
-    void removeBoardMember(Long id,
-                           BoardMemberDTO boardMemberDTO);
+    boolean removeBoardMember(Long id,
+                                              BoardMemberDTO boardMemberDTO) throws Exception;
 
 
     BoardDTO addBoardCategory(Long id, BoardCategoryDTO boardCategoryDTO);

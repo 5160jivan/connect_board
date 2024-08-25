@@ -9,6 +9,7 @@ import com.connect_board.connect_board.entities.UserEntity;
 import com.connect_board.connect_board.exceptions.ResourceNotFoundException;
 import com.connect_board.connect_board.repositories.BoardRepository;
 import com.connect_board.connect_board.utils.Constants;
+import com.connect_board.connect_board.utils.CustomOperationResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.catalina.User;
 import org.modelmapper.ModelMapper;
@@ -125,14 +126,23 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public void removeBoardMember(Long id, BoardMemberDTO boardMemberDTO) {
-        BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
-        BoardMemberEntity boardMemberEntity = boardEntity.getBoardMembers()
-                .stream()
-                .filter(member -> member.getId().equals(boardMemberDTO.getId()))
-                .findFirst()
-                .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + boardMemberDTO.getId()));
-        boardEntity.removeBoardMember(boardMemberEntity);
+    public boolean removeBoardMember(Long id, BoardMemberDTO boardMemberDTO) throws Exception {
+        try {
+            BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
+            BoardMemberEntity boardMemberEntity = boardEntity.getBoardMembers()
+                    .stream()
+                    .filter(member -> member.getId().equals(boardMemberDTO.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + boardMemberDTO.getId()));
+            boardEntity.removeBoardMember(boardMemberEntity);
+            boardRepository.save(boardEntity);
+            return true;
+        }
+        catch (Exception e){
+            throw new Exception("Error occurred while removing board member: " + e.getMessage());
+        }
+
+
     }
 
     @Override

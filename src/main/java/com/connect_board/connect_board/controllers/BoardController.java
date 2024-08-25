@@ -2,8 +2,11 @@ package com.connect_board.connect_board.controllers;
 import com.connect_board.connect_board.dto.BoardDTO;
 import com.connect_board.connect_board.dto.BoardMemberDTO;
 import com.connect_board.connect_board.dto.BoardMemberIDDTO;
+import com.connect_board.connect_board.utils.CustomOperationResponse;
 import lombok.RequiredArgsConstructor;
 import com.connect_board.connect_board.services.BoardService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import  com.connect_board.connect_board.dto.BoardCategoryDTO;
 
@@ -44,9 +47,19 @@ public class BoardController {
         }
     }
 
+    @GetMapping("/{boardId}/members")
+    public List<BoardMemberDTO> getBoardMembers(@PathVariable Long boardId){
+        return boardService.getBoardMembers(boardId);
+    }
+
     @PatchMapping("/{boardId}/removeMember")
-    public void removeBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO){
-        boardService.removeBoardMember(boardId, boardMemberDTO);
+    public ResponseEntity<CustomOperationResponse> removeBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO) throws Exception {
+        boolean removed = boardService.removeBoardMember(boardId, boardMemberDTO);
+        if(removed){
+            return new ResponseEntity<>(new CustomOperationResponse("Board member removed successfully"), HttpStatus.OK);
+        }else{
+            return new ResponseEntity<>(new CustomOperationResponse("Board member not found"), HttpStatus.NOT_FOUND);
+        }
     }
 
     @PatchMapping("/{boardId}/addCategory")
