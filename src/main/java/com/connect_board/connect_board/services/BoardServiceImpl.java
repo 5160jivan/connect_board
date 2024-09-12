@@ -131,9 +131,9 @@ public class BoardServiceImpl implements BoardService {
             BoardEntity boardEntity = boardRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Board not found with id: " + id));
             BoardMemberEntity boardMemberEntity = boardEntity.getBoardMembers()
                     .stream()
-                    .filter(member -> member.getId().equals(boardMemberDTO.getId()))
+                    .filter(member -> member.getId().getUserId().equals(boardMemberDTO.getId().getUserId()))
                     .findFirst()
-                    .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + boardMemberDTO.getId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Board Member not found with id: " + boardMemberDTO.getId().getUserId()));
             boardEntity.removeBoardMember(boardMemberEntity);
             boardRepository.save(boardEntity);
             return true;

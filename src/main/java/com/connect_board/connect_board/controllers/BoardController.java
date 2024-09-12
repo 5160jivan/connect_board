@@ -56,9 +56,9 @@ public class BoardController {
     public ResponseEntity<CustomOperationResponse> removeBoardMember(@PathVariable Long boardId, @RequestBody BoardMemberDTO boardMemberDTO) throws Exception {
         boolean removed = boardService.removeBoardMember(boardId, boardMemberDTO);
         if(removed){
-            return new ResponseEntity<>(new CustomOperationResponse("Board member removed successfully"), HttpStatus.OK);
+            return new ResponseEntity<>(new CustomOperationResponse(true, "Board member removed successfully"), HttpStatus.OK);
         }else{
-            return new ResponseEntity<>(new CustomOperationResponse("Board member not found"), HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(new CustomOperationResponse(false, "Failed removing board member"+boardMemberDTO), HttpStatus.NOT_FOUND);
         }
     }
 

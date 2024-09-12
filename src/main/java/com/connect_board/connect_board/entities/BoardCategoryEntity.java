@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -26,7 +27,7 @@ public class BoardCategoryEntity {
     private String description;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<BoardEntity> boards;
+    private Set<BoardEntity> boards = new HashSet<>();
 
     @Override
     public int hashCode(){

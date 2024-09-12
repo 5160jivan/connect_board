@@ -13,12 +13,12 @@ import java.util.List;
 public class BoardCategoryController {
     private final BoardCategoryService boardCategoryService;
 
-    @GetMapping("/")
+    @GetMapping("")
     public List<BoardCategoryDTO> getAllBoardCategories() {
         return boardCategoryService.getAllBoardCategories();
     }
 
-    @PostMapping("/")
+    @PostMapping("")
     public BoardCategoryDTO createBoardCategory(@RequestBody BoardCategoryDTO boardCategoryDTO) {
         return boardCategoryService.createBoardCategory(boardCategoryDTO);
     }

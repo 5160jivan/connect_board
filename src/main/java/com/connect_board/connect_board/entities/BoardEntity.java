@@ -33,7 +33,7 @@ public class BoardEntity {
             CascadeType.PERSIST,
             CascadeType.MERGE
     })
-    @JoinTable(name = "board_categories", joinColumns = @JoinColumn(name = "board_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
+    @JoinTable(name = "board_category_mapping", joinColumns = @JoinColumn(name = "board_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<BoardCategoryEntity> categories;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -65,7 +65,11 @@ public class BoardEntity {
 
     public void addBoardCategory(BoardCategoryEntity boardCategory){
         categories.add(boardCategory);
-        boardCategory.getBoards().add(this);
+        Set<BoardEntity> boards = boardCategory.getBoards();
+        if(boards == null){
+            boards = new HashSet<>();
+        }
+        boards.add(this);
     }
 
     public void removeBoardCategory(BoardCategoryEntity boardCategory){

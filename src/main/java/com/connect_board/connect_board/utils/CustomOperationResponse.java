@@ -9,14 +9,13 @@ import java.io.Serializable;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CustomOperationResponse extends Throwable implements Serializable {
+public class CustomOperationResponse implements Serializable {
 
     private String message;
     private boolean success;
 
     public CustomOperationResponse(String message) {
         this.message = message;
-        this.success = true;
     }
 
     public CustomOperationResponse(boolean success) {
